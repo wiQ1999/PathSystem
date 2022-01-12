@@ -61,6 +61,22 @@ namespace PathSystem.Database.Repositories
                 result.Guid = entityModel.Guid;
                 result.Name = entityModel.Name;
                 result.Speed = entityModel.Speed;
+                result.IsActive = entityModel.IsActive;
+                await _context.SaveChangesAsync();
+
+                return result;
+            }
+
+            return null;
+        }
+
+        public async Task<EntityModel> UpdateEntityActivity(EntityModel entityModel)
+        {
+            var result = await _context.Entities.FirstOrDefaultAsync(e => e.Id == entityModel.Id);
+
+            if (result != null)
+            {
+                result.IsActive = entityModel.IsActive;
                 await _context.SaveChangesAsync();
 
                 return result;

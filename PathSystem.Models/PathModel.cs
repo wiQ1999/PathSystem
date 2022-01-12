@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PathSystem.Models
 {
@@ -13,7 +13,6 @@ namespace PathSystem.Models
 
         public bool IsFinished { get; set; }
 
-        [Timestamp]
-        public byte[] Timestamp { get; set; }
+        public DateTime CreatedDateTime { get; set; }
     }
 }

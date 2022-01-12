@@ -6,7 +6,7 @@ namespace PathSystem.Database.Interfaces
 {
     public interface IPathRepository
     {
-        Task<IEnumerable<PathModel>> GetPaths();
+        Task<IEnumerable<PathModel>> GetPaths(bool? finished);
         Task<IEnumerable<PathModel>> GetPaths(EntityModel entityModel);
         Task<PathModel> GetPath(int pathId);
         Task<PathModel> GetLastPath(EntityModel entityModel);

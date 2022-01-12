@@ -8,6 +8,5 @@ namespace PathSystem.Database.Interfaces
     {
         Task<IEnumerable<MapPositionModel>> AddMap(IEnumerable<MapPositionModel> mapModels);
         Task<IEnumerable<MapPositionModel>> GetMap();
-        Task<IEnumerable<MapPositionModel>> UpdateMap(IEnumerable<MapPositionModel> mapModels);
     }
 }

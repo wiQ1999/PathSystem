@@ -29,7 +29,7 @@ namespace PathSystem.Database.Repositories
             var result = _context.EntitiesPosition;
 
             if (lastActivate)
-                result.GroupBy(ep => ep.Timestamp);
+                result.GroupBy(ep => ep.CreatedDateTime);
 
             return await result.ToArrayAsync();
         }

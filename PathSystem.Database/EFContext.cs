@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PathSystem.Database.Deserializer;
 using PathSystem.Models;
 
 namespace PathSystem.Database
@@ -14,6 +15,13 @@ namespace PathSystem.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=localhost;Database=PathSystemDB;Trusted_Connection=True;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var mapPoints = new JSON().Deserialize();
+
+            modelBuilder.Entity<MapPositionModel>().HasData(mapPoints);
         }
     }
 }

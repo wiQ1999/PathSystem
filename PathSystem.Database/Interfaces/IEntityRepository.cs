@@ -12,6 +12,7 @@ namespace PathSystem.Database.Interfaces
         Task<EntityModel> GetEntity(int entityId);
         Task<EntityModel> GetEntity(Guid entityGuid);
         Task<EntityModel> UpdateEntity(EntityModel entityModel);
+        Task<EntityModel> UpdateEntityActivity(EntityModel entityModel);
         Task DeleteEntity(int entityId);
         Task DeleteEntity(Guid entityGuid);
     }

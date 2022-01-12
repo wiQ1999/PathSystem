@@ -31,7 +31,15 @@ namespace PathSystem.Database.Repositories
 
         public async Task<PathModel> GetPath(int pathId) => await _context.Paths.FirstOrDefaultAsync(e => e.Id == pathId);
 
-        public async Task<IEnumerable<PathModel>> GetPaths() => await _context.Paths.ToArrayAsync();
+        public async Task<IEnumerable<PathModel>> GetPaths(bool? finished = null) 
+        { 
+            var result = _context.Paths;
+
+            if (finished != null)
+                return await result.Where(p => p.IsFinished == (bool)finished).ToArrayAsync();
+
+            return await result.ToArrayAsync();
+        }
 
         public async Task<IEnumerable<PathModel>> GetPaths(EntityModel entityModel) => await _context.Paths.Where(p => p.Entity == entityModel).ToArrayAsync();
 

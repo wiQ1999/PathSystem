@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PathSystem.API.MapService
+namespace PathSystem.Tools
 {
     public static class MapHelper
     {

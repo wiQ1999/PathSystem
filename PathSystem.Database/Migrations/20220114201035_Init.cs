@@ -15,7 +15,7 @@ namespace PathSystem.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Speed = table.Column<float>(type: "real", nullable: false),
+                    Speed = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
@@ -91,14 +91,14 @@ namespace PathSystem.Database.Migrations
                     PositionX = table.Column<int>(type: "int", nullable: false),
                     PositionY = table.Column<int>(type: "int", nullable: false),
                     Milliseconds = table.Column<int>(type: "int", nullable: false),
-                    PathModelId = table.Column<int>(type: "int", nullable: true)
+                    PathId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PathPositions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PathPositions_Paths_PathModelId",
-                        column: x => x.PathModelId,
+                        name: "FK_PathPositions_Paths_PathId",
+                        column: x => x.PathId,
                         principalTable: "Paths",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -11783,9 +11783,9 @@ namespace PathSystem.Database.Migrations
                 column: "EntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PathPositions_PathModelId",
+                name: "IX_PathPositions_PathId",
                 table: "PathPositions",
-                column: "PathModelId");
+                column: "PathId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Paths_EntityId",

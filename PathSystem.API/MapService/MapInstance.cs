@@ -1,6 +1,5 @@
 ﻿using PathSystem.Database.Repositories;
 using PathSystem.Models;
-using PathSystem.Tools;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,13 +9,10 @@ namespace PathSystem.API.MapService
     {
         private static readonly Task<MapInstance> _instance = InitializeInstance();
 
-        public readonly bool[,] MapArray;
+        public readonly IEnumerable<MapPosition> MapModel;
 
-        public readonly IEnumerable<MapPositionModel> MapModel;
-
-        private MapInstance(bool[,] mapArray, IEnumerable<MapPositionModel> mapModel)
+        private MapInstance(IEnumerable<MapPosition> mapModel)
         {
-            MapArray = mapArray;
             MapModel = mapModel;
         }
 
@@ -30,10 +26,10 @@ namespace PathSystem.API.MapService
 
         private static async Task<MapInstance> InitializeInstance()
         {
-            EFMapRepository mapRepository = new(new Database.EFContext());
-            IEnumerable<MapPositionModel> mapModel = await mapRepository.GetMap();
+            MapRepository mapRepository = new(new Database.EFContext());
+            IEnumerable<MapPosition> mapModel = await mapRepository.GetMap();
 
-            return new MapInstance(MapHelper.ConvertToMapArray(mapModel), mapModel);
+            return new MapInstance(mapModel);
         }
     }
 }

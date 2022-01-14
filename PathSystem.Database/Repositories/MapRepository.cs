@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace PathSystem.Database.Repositories
 {
-    public class EFMapRepository : IMapRepository
+    public class MapRepository : IMapRepository
     {
         private readonly EFContext _context;
 
-        public EFMapRepository(EFContext context)
+        public MapRepository(EFContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<MapPositionModel>> AddMap(IEnumerable<MapPositionModel> mapModels)
+        public async Task<IEnumerable<MapPosition>> AddMap(IEnumerable<MapPosition> mapModels)
         {
             _context.Map.RemoveRange(GetMap().Result);
 
@@ -24,9 +24,9 @@ namespace PathSystem.Database.Repositories
 
             return await Task.Run(() =>
             {
-                List<MapPositionModel> result = new(mapModels.Count());
+                List<MapPosition> result = new(mapModels.Count());
 
-                foreach (MapPositionModel mapModel in mapModels)
+                foreach (MapPosition mapModel in mapModels)
                 {
                     var addedModel = _context.Map.Add(mapModel);
                     _context.SaveChangesAsync();
@@ -39,6 +39,7 @@ namespace PathSystem.Database.Repositories
             });
         }
 
-        public async Task<IEnumerable<MapPositionModel>> GetMap() => await _context.Map.ToArrayAsync();
+        public async Task<IEnumerable<MapPosition>> GetMap() => 
+            await _context.Map.ToArrayAsync();
     }
 }

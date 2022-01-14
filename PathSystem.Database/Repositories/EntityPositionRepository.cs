@@ -1,22 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PathSystem.Database.Interfaces;
 using PathSystem.Models;
+using PathSystem.Models.Tables;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace PathSystem.Database.Repositories
 {
-    public class EFEntityPositionRepository : IEntityPositionRepository
+    public class EntityPositionRepository : IEntityPositionRepository
     {
         private readonly EFContext _context;
 
-        public EFEntityPositionRepository(EFContext context)
+        public EntityPositionRepository(EFContext context)
         {
             _context = context;
         }
 
-        public async Task<EntityPositionModel> AddEntityPosition(EntityPositionModel entityPositionModel)
+        public async Task<EntityPosition> AddEntityPosition(EntityPosition entityPositionModel)
         {
             var result = await _context.EntitiesPosition.AddAsync(entityPositionModel);
             await _context.SaveChangesAsync();
@@ -24,7 +25,7 @@ namespace PathSystem.Database.Repositories
             return result.Entity;
         }
 
-        public async Task<IEnumerable<EntityPositionModel>> GetEntitiesPosition(bool lastActivate = true)
+        public async Task<IEnumerable<EntityPosition>> GetEntitiesPosition(bool lastActivate = true)
         {
             var result = _context.EntitiesPosition;
 
@@ -34,8 +35,10 @@ namespace PathSystem.Database.Repositories
             return await result.ToArrayAsync();
         }
 
-        public async Task<EntityPositionModel> GetEntityPosition(int entityPositionId) => await _context.EntitiesPosition.FirstOrDefaultAsync(e => e.Id == entityPositionId);
+        public async Task<EntityPosition> GetEntityPosition(int entityPositionId) => 
+            await _context.EntitiesPosition.FirstOrDefaultAsync(e => e.Id == entityPositionId);
 
-        public async Task<EntityPositionModel> GetEntityPosition(EntityModel entityModel) => await _context.EntitiesPosition.FirstOrDefaultAsync(e => e.Entity == entityModel);
+        public async Task<EntityPosition> GetEntityPosition(Entity entityModel) => 
+            await _context.EntitiesPosition.FirstOrDefaultAsync(e => e.Entity.Id == entityModel.Id);
     }
 }

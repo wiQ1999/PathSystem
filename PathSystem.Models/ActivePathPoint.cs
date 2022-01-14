@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace PathSystem.Models
+﻿namespace PathSystem.Models
 {
-    public class PathPositionModel
+    public class ActivePathPoint
     {
-        public int Id { get; set; }
-
         public int PositionX { get; set; }
 
         public int PositionY { get; set; }

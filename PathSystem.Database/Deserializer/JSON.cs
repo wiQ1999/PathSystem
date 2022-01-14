@@ -12,9 +12,9 @@ namespace PathSystem.Database.Deserializer
 
         //private readonly JsonSerializer _json = new JsonSerializer();
 
-        public List<MapPositionModel> Deserialize()
+        public List<MapPosition> Deserialize()
         {
-            List<MapPositionModel> result = new List<MapPositionModel>();
+            List<MapPosition> result = new List<MapPosition>();
 
             if (!File.Exists(PROFILESPATH))
                 return result;
@@ -22,7 +22,7 @@ namespace PathSystem.Database.Deserializer
             using (TextReader reader = new StreamReader(PROFILESPATH))
             {
                 string jsonString = reader.ReadToEnd();
-                result = JsonConvert.DeserializeObject<List<MapPositionModel>>(jsonString);
+                result = JsonConvert.DeserializeObject<List<MapPosition>>(jsonString);
             }
 
             return result;

@@ -8,6 +8,9 @@ namespace PathSystem.Models
 
         public string Name { get; set; }
 
-        public float Speed { get; set; }
+        /// <summary>
+        /// Ilość milisekund na pokonanie odległości jednego bloku mapy
+        /// </summary>
+        public int Speed { get; set; }
     }
 }

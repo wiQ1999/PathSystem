@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace PathSystem.Models
+namespace PathSystem.Models.Tables
 {
-    public class EntityModel
+    public class Entity
     {
         public int Id { get; set; }
 
@@ -11,7 +11,10 @@ namespace PathSystem.Models
 
         public string Name { get; set; }
 
-        public float Speed { get; set; }
+        /// <summary>
+        /// Ilość milisekund na pokonanie odległości jednego bloku mapy
+        /// </summary>
+        public int Speed { get; set; }
 
         public bool IsActive { get; set; }
 

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PathSystem.Tools\PathSystem.Tools.csproj" />
+    <ProjectReference Include="..\PathSystem.Models\PathSystem.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

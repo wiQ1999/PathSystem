@@ -1,22 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PathSystem.Database.Interfaces;
-using PathSystem.Models;
+using PathSystem.Models.Tables;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PathSystem.Database.Repositories
 {
-    public class EFEntityRepository : IEntityRepository
+    public class EntityRepository : IEntityRepository
     {
         private readonly EFContext _context;
 
-        public EFEntityRepository(EFContext context)
+        public EntityRepository(EFContext context)
         {
             _context = context;
         }
 
-        public async Task<EntityModel> AddEntity(EntityModel entityModel)
+        public async Task<Entity> AddEntity(Entity entityModel)
         {
             var result = await _context.Entities.AddAsync(entityModel);
             await _context.SaveChangesAsync();
@@ -46,13 +46,16 @@ namespace PathSystem.Database.Repositories
             }
         }
 
-        public async Task<IEnumerable<EntityModel>> GetEntities() => await _context.Entities.ToArrayAsync();
+        public async Task<IEnumerable<Entity>> GetEntities() => 
+            await _context.Entities.ToArrayAsync();
 
-        public async Task<EntityModel> GetEntity(int entityId) => await _context.Entities.FirstOrDefaultAsync(e => e.Id == entityId);
+        public async Task<Entity> GetEntity(int entityId) => 
+            await _context.Entities.FirstOrDefaultAsync(e => e.Id == entityId);
 
-        public async Task<EntityModel> GetEntity(Guid entityGuid) => await _context.Entities.FirstOrDefaultAsync(e => e.Guid == entityGuid);
+        public async Task<Entity> GetEntity(Guid entityGuid) => 
+            await _context.Entities.FirstOrDefaultAsync(e => e.Guid == entityGuid);
 
-        public async Task<EntityModel> UpdateEntity(EntityModel entityModel)
+        public async Task<Entity> UpdateEntity(Entity entityModel)
         {
             var result = await _context.Entities.FirstOrDefaultAsync(e => e.Id == entityModel.Id);
 
@@ -70,7 +73,7 @@ namespace PathSystem.Database.Repositories
             return null;
         }
 
-        public async Task<EntityModel> UpdateEntityActivity(EntityModel entityModel)
+        public async Task<Entity> UpdateEntityActivity(Entity entityModel)
         {
             var result = await _context.Entities.FirstOrDefaultAsync(e => e.Id == entityModel.Id);
 

@@ -1,6 +1,6 @@
 ﻿namespace PathSystem.Models
 {
-    public class MapPositionModel
+    public class MapPosition
     {
         public int Id { get; set; }
 

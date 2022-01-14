@@ -19,36 +19,7 @@ namespace PathSystem.Database.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PathSystem.Models.EntityModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("Speed")
-                        .HasColumnType("real");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Entities");
-                });
-
-            modelBuilder.Entity("PathSystem.Models.EntityPositionModel", b =>
+            modelBuilder.Entity("PathSystem.Models.EntityPosition", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,7 +45,7 @@ namespace PathSystem.Database.Migrations
                     b.ToTable("EntitiesPosition");
                 });
 
-            modelBuilder.Entity("PathSystem.Models.MapPositionModel", b =>
+            modelBuilder.Entity("PathSystem.Models.MapPosition", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70097,7 +70068,7 @@ namespace PathSystem.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PathSystem.Models.PathModel", b =>
+            modelBuilder.Entity("PathSystem.Models.Path", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70120,7 +70091,7 @@ namespace PathSystem.Database.Migrations
                     b.ToTable("Paths");
                 });
 
-            modelBuilder.Entity("PathSystem.Models.PathPositionModel", b =>
+            modelBuilder.Entity("PathSystem.Models.PathPosition", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70130,7 +70101,7 @@ namespace PathSystem.Database.Migrations
                     b.Property<int>("Milliseconds")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PathModelId")
+                    b.Property<int?>("PathId")
                         .HasColumnType("int");
 
                     b.Property<int>("PositionX")
@@ -70141,39 +70112,70 @@ namespace PathSystem.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PathModelId");
+                    b.HasIndex("PathId");
 
                     b.ToTable("PathPositions");
                 });
 
-            modelBuilder.Entity("PathSystem.Models.EntityPositionModel", b =>
+            modelBuilder.Entity("PathSystem.Models.Tables.Entity", b =>
                 {
-                    b.HasOne("PathSystem.Models.EntityModel", "Entity")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Speed")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Entities");
+                });
+
+            modelBuilder.Entity("PathSystem.Models.EntityPosition", b =>
+                {
+                    b.HasOne("PathSystem.Models.Tables.Entity", "Entity")
                         .WithMany()
                         .HasForeignKey("EntityId");
 
                     b.Navigation("Entity");
                 });
 
-            modelBuilder.Entity("PathSystem.Models.PathModel", b =>
+            modelBuilder.Entity("PathSystem.Models.Path", b =>
                 {
-                    b.HasOne("PathSystem.Models.EntityModel", "Entity")
+                    b.HasOne("PathSystem.Models.Tables.Entity", "Entity")
                         .WithMany()
                         .HasForeignKey("EntityId");
 
                     b.Navigation("Entity");
                 });
 
-            modelBuilder.Entity("PathSystem.Models.PathPositionModel", b =>
+            modelBuilder.Entity("PathSystem.Models.PathPosition", b =>
                 {
-                    b.HasOne("PathSystem.Models.PathModel", null)
-                        .WithMany("Points")
-                        .HasForeignKey("PathModelId");
+                    b.HasOne("PathSystem.Models.Path", "Path")
+                        .WithMany("PathPositions")
+                        .HasForeignKey("PathId");
+
+                    b.Navigation("Path");
                 });
 
-            modelBuilder.Entity("PathSystem.Models.PathModel", b =>
+            modelBuilder.Entity("PathSystem.Models.Path", b =>
                 {
-                    b.Navigation("Points");
+                    b.Navigation("PathPositions");
                 });
 #pragma warning restore 612, 618
         }

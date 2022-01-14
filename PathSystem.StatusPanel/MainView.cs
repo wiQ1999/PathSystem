@@ -6,7 +6,7 @@ namespace PathSystem.StatusPanel
     public partial class MainView : Form
     {
 
-        private BackgroundUpdateService _worker;
+        private readonly BackgroundUpdateService _worker;
 
         public MainView()
         {

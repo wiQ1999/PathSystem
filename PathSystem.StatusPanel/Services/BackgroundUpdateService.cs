@@ -1,5 +1,5 @@
 ﻿using PathSystem.Models;
-using System;
+using PathSystem.Models.Tables;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -16,15 +16,13 @@ namespace PathSystem.StatusPanel.Services
 
         private ListBox _entitiesList;
 
-        private MapPositionModel[] _mapPositionModels;
+        private MapPosition[] _mapPositionModels;
 
-        private EntityModel[] _entityModels;
+        private Entity[] _entityModels;
 
-        private PathModel[] _pathModels;
+        private Path[] _pathModels;
 
         public APIService API { get; set; } = new APIService();
-
-
 
         public BackgroundUpdateService(PictureBox mapControll, ListBox entieiesList)
         {
@@ -77,7 +75,7 @@ namespace PathSystem.StatusPanel.Services
                 ((Bitmap)_mapControll.Image).SetPixel(position.PositionX, position.PositionY, position.Value ? Color.White : Color.Black);
 
             foreach (var path in _pathModels)
-                foreach (var point in path.Points)
+                foreach (var point in path.PathPositions)
                     ((Bitmap)_mapControll.Image).SetPixel(point.PositionX, point.PositionY, Color.LightBlue); // TODO: zmieniać na kolor ENtity z modelu
 
             // TODO dodać aktualne pozycje Entities

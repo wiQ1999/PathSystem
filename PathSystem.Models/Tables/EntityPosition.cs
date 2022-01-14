@@ -1,13 +1,13 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using PathSystem.Models.Tables;
+using System;
 
 namespace PathSystem.Models
 {
-    public class EntityPositionModel
+    public class EntityPosition
     {
         public int Id { get; set; }
 
-        public EntityModel Entity { get; set; }
+        public Entity Entity { get; set; }
 
         public int PositionX { get; set; }
 

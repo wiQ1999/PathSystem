@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PathSystem.Database.Deserializer;
 using PathSystem.Models;
+using PathSystem.Models.Tables;
 
 namespace PathSystem.Database
 {
     public class EFContext : DbContext
     {
-        public DbSet<MapPositionModel> Map { get; set; }
-        public DbSet<PathPositionModel> PathPositions { get; set; }
-        public DbSet<PathModel> Paths { get; set; }
-        public DbSet<EntityModel> Entities { get; set; }
-        public DbSet<EntityPositionModel> EntitiesPosition { get; set; }
+        public DbSet<MapPosition> Map { get; set; }
+        public DbSet<PathPosition> PathPositions { get; set; }
+        public DbSet<Path> Paths { get; set; }
+        public DbSet<Entity> Entities { get; set; }
+        public DbSet<EntityPosition> EntitiesPosition { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,9 +20,9 @@ namespace PathSystem.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // map seed
             var mapPoints = new JSON().Deserialize();
-
-            modelBuilder.Entity<MapPositionModel>().HasData(mapPoints);
+            modelBuilder.Entity<MapPosition>().HasData(mapPoints);
         }
     }
 }

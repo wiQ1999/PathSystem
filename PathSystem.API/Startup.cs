@@ -26,10 +26,10 @@ namespace PathSystem.API
             //services.AddDbContext<EFContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
             services.AddDbContext<EFContext>();
 
-            services.AddScoped<IMapRepository, EFMapRepository>();
-            services.AddScoped<IEntityRepository, EFEntityRepository>();
-            services.AddScoped<IEntityPositionRepository, EFEntityPositionRepository>();
-            services.AddScoped<IPathRepository, EFPathRepository>();
+            services.AddScoped<IMapRepository, MapRepository>();
+            services.AddScoped<IEntityRepository, EntityRepository>();
+            services.AddScoped<IEntityPositionRepository, EntityPositionRepository>();
+            services.AddScoped<IPathRepository, PathRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

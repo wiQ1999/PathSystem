@@ -36,11 +36,12 @@ namespace PathSystem.StatusPanel
             // 
             // EntitiesList
             // 
+            this.EntitiesList.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.EntitiesList.FormattingEnabled = true;
-            this.EntitiesList.ItemHeight = 15;
+            this.EntitiesList.ItemHeight = 25;
             this.EntitiesList.Location = new System.Drawing.Point(665, 12);
             this.EntitiesList.Name = "EntitiesList";
-            this.EntitiesList.Size = new System.Drawing.Size(307, 634);
+            this.EntitiesList.Size = new System.Drawing.Size(307, 629);
             this.EntitiesList.TabIndex = 2;
             // 
             // MapControll

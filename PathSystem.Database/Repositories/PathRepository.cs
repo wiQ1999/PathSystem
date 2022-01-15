@@ -71,6 +71,7 @@ namespace PathSystem.Database.Repositories
                 result.Entity = pathModel.Entity;
                 result.PathPositions = pathModel.PathPositions;
                 result.IsFinished = pathModel.IsFinished;
+                result.PathfindingMillisecond = pathModel.PathfindingMillisecond;
                 await _context.SaveChangesAsync();
 
                 return result;

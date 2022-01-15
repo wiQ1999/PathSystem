@@ -8,13 +8,13 @@ namespace PathSystem.Database.Deserializer
 {
     public class JSON
     {
-        private string PROFILESPATH = Environment.CurrentDirectory + "\\Resources\\Map01.json";
+        private string PROFILESPATH = Environment.CurrentDirectory + "\\Resources\\Map02.json";
 
         //private readonly JsonSerializer _json = new JsonSerializer();
 
         public List<MapPosition> Deserialize()
         {
-            List<MapPosition> result = new List<MapPosition>();
+            List<MapPosition> result = new();
 
             if (!File.Exists(PROFILESPATH))
                 return result;

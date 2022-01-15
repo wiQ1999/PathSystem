@@ -1,5 +1,6 @@
 ﻿using PathSystem.Models;
 using PathSystem.Models.Tables;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -11,15 +12,11 @@ namespace PathSystem.StatusPanel.Services
     public class BackgroundUpdateService
     {
         private BackgroundWorker _worker;
-
         private PictureBox _mapControll;
-
         private ListBox _entitiesList;
-
         private MapPosition[] _mapPositionModels;
-
         private Entity[] _entityModels;
-
+        private List<EntityPosition> _entityPositionModels;
         private Path[] _pathModels;
 
         public APIService API { get; set; } = new APIService();
@@ -43,6 +40,19 @@ namespace PathSystem.StatusPanel.Services
         private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             _entityModels = API.GetEntities().ToArray();
+
+            _entityPositionModels = new();
+            foreach (var entity in _entityModels)
+            {
+                if (entity.IsActive)
+                {
+                    var position = API.GetEntityLastPosition(entity);
+                    if (position != null)
+                        _entityPositionModels.Add(position);
+                }
+
+            }
+
             _pathModels = API.GetPaths().ToArray();
 
             UpdateEntitiesControll();
@@ -76,9 +86,10 @@ namespace PathSystem.StatusPanel.Services
 
             foreach (var path in _pathModels)
                 foreach (var point in path.PathPositions)
-                    ((Bitmap)_mapControll.Image).SetPixel(point.PositionX, point.PositionY, Color.LightBlue); // TODO: zmieniać na kolor ENtity z modelu
+                    ((Bitmap)_mapControll.Image).SetPixel(point.PositionX, point.PositionY, Color.LightBlue); // TODO: zmieniać na kolor Entity z modelu
 
-            // TODO dodać aktualne pozycje Entities
+            foreach (var entityPosition in _entityPositionModels)
+                ((Bitmap)_mapControll.Image).SetPixel(entityPosition.PositionX, entityPosition.PositionY, Color.Red);
 
             _mapControll.Refresh();
         }
@@ -87,8 +98,11 @@ namespace PathSystem.StatusPanel.Services
         {
             _entitiesList.Items.Clear();
 
-            foreach (var entitie in _entityModels)
-                _entitiesList.Items.Add($"ID: {entitie.Id}; {entitie.Name}; {entitie.Guid}");
+            foreach (var entitiePosition in _entityPositionModels)
+                _entitiesList.Items.Add($"{entitiePosition.Entity.Name} ({ entitiePosition.PositionX}, { entitiePosition.PositionY})");
+
+            foreach (var entity in _entityModels.Where(e => !e.IsActive))
+                _entitiesList.Items.Add($"{entity.Name} - nieaktywny");
         }
     }
 }

@@ -9,7 +9,6 @@ namespace PathSystem.Database.Interfaces
     {
         Task<EntityPosition> AddEntityPosition(EntityPosition entityPositionModel);
         Task<IEnumerable<EntityPosition>> GetEntitiesPosition(bool lastActivate);
-        Task<EntityPosition> GetEntityPosition(int entityPositionId);
         Task<EntityPosition> GetEntityPosition(Entity entityModel);
     }
 }

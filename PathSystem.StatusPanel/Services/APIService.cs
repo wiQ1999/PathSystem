@@ -16,21 +16,30 @@ namespace PathSystem.StatusPanel.Services
         {
             var request = new RestRequest("map", Method.Get);
 
-            return Client.GetAsync<IEnumerable<MapPosition>>(request).Result;
+            return Client.ExecuteGetAsync<IEnumerable<MapPosition>>(request).Result.Data;
         }
 
         public IEnumerable<Entity> GetEntities()
         {
             var request = new RestRequest("entities", Method.Get);
 
-            return Client.GetAsync<IEnumerable<Entity>>(request).Result;
+            return Client.ExecuteGetAsync<IEnumerable<Entity>>(request).Result.Data;
+        }
+
+        public EntityPosition GetEntityLastPosition(Entity entity)
+        {
+            var request = new RestRequest("position", Method.Get);
+
+            request.AddBody(entity);
+
+            return Client.ExecuteGetAsync<EntityPosition>(request).Result.Data;
         }
 
         public IEnumerable<Path> GetPaths()
         {
             var request = new RestRequest("paths", Method.Get);
 
-            return Client.GetAsync<IEnumerable<Path>>(request).Result;
+            return Client.ExecuteGetAsync<IEnumerable<Path>>(request).Result.Data;
         }
     }
 }

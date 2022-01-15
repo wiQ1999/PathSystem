@@ -7,6 +7,7 @@ using PathSystem.PathFinder;
 using PathSystem.Tools.Converters;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace PathSystem.API.Controllers
         private readonly IPathRepository _pathRepository;
 
         private AStarAlgorithm _pathFinder;
+        private Stopwatch _stopwatch = new ();
 
         public EntityPathController(IEntityRepository entityRepository, IEntityPositionRepository entityPositionRepository, IPathRepository pathRepository)
         {
@@ -87,16 +89,27 @@ namespace PathSystem.API.Controllers
 
             Point endPoint = new(entityPositionPath.DestinationX, entityPositionPath.DestinationY);
             if (!new MapCalculator((await MapInstance.GetInstance()).MapModel.ToArray()).IsPointClear(endPoint)) // sprawdzenie dostępności punktu docelowego
-                return StatusCode(406, $"Position ({endPoint.X}, {endPoint.Y}) is loced");
+                return StatusCode(406, $"Position ({endPoint.X}, {endPoint.Y}) is blocked");
 
-            // algorytm wyszukiwania trasy
-            var path = _pathFinder.FindPath(entityPositionPath.EntityPosition.PositionX, entityPositionPath.EntityPosition.PositionY, entityPositionPath.DestinationX, entityPositionPath.DestinationY);
+            _stopwatch.Restart();
+
+            var path = _pathFinder.FindPath( // algorytm wyszukiwania trasy
+                entityPositionPath.EntityPosition.PositionX, 
+                entityPositionPath.EntityPosition.PositionY, 
+                entityPositionPath.DestinationX, 
+                entityPositionPath.DestinationY
+            );
+
+            _stopwatch.Stop();
+            long lookingTime = _stopwatch.ElapsedMilliseconds;
 
             if (path != null && path.Any())
             {
                 var pathConverter = new PathConverter();
 
                 var pathDBModel = pathConverter.ConvertToPathModel(path, entityDB); // konwersja na model trasy bazodanowej
+
+                pathDBModel.PathfindingMillisecond = lookingTime; // dodanie czasu wyszukiwania trasy
 
                 await _pathRepository.AddPath(pathDBModel); // dodanie trasy do bazy dancyh
 
@@ -124,7 +137,8 @@ namespace PathSystem.API.Controllers
             {
                 Entity = entityDB,
                 PositionX = entityPosition.PositionX,
-                PositionY = entityPosition.PositionY
+                PositionY = entityPosition.PositionY,
+                CreatedDateTime = entityPosition.CreatedDateTime
             };
 
             await _entityPositionRepository.AddEntityPosition(entityPositionModel);

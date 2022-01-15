@@ -14,6 +14,8 @@ namespace PathSystem.Models
 
         public DateTime CreatedDateTime { get; set; }
 
+        public long PathfindingMillisecond { get; set; }
+
         public ICollection<PathPosition> PathPositions { get; set; }
     }
 }

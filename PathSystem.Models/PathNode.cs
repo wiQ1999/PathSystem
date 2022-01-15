@@ -16,10 +16,11 @@
 
         public int CostsSum => GoalConst + HeuristicCost;
 
-        public PathNode(int x, int y)
+        public PathNode(int x, int y, bool isBlocked)
         {
             X = x;
             Y = y;
+            Blocked = isBlocked;
             GoalConst = int.MaxValue;
         }
 

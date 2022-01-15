@@ -47,7 +47,7 @@ namespace PathSystem.Tools.Converters
             PathNode[,] mapArray = new PathNode[maxX, maxY];
 
             foreach (MapPosition position in mapModel)
-                mapArray[position.PositionX, position.PositionY] = new PathNode(position.PositionX, position.PositionY);
+                mapArray[position.PositionX, position.PositionY] = new PathNode(position.PositionX, position.PositionY, !position.Value);
 
             return mapArray;
         }

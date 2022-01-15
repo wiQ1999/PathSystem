@@ -12,6 +12,10 @@ namespace PathSystem.PathFinder
         private const int DIAGONAL_COST = 14;
 
         private readonly PathNode[,] _map;
+
+        //private Path[] _paths;
+        //private EntityPosition[] _entities;
+
         private List<PathNode> _openNodes;
         private List<PathNode> _closedNodes;
 
@@ -22,6 +26,9 @@ namespace PathSystem.PathFinder
 
         public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
         {
+            //_paths = paths;
+            //_entities = entities;
+
             PathNode endNode = _map[endX, endY];
             PathNode startNode = _map[startX, startY];
             startNode.GoalConst = 0;
@@ -32,7 +39,7 @@ namespace PathSystem.PathFinder
 
             while (_openNodes.Any())
             {
-                PathNode currentNode = GetLowestCostsSum(_openNodes);
+                PathNode currentNode = _openNodes.OrderBy(pn => pn.CostsSum).FirstOrDefault();
 
                 if (currentNode.X == endX && currentNode.Y == endY)
                     return BuildFinishPathNodes(endNode);
@@ -44,6 +51,12 @@ namespace PathSystem.PathFinder
                 {
                     if (_closedNodes.Contains(neighbourNode)) 
                         continue;
+
+                    if (neighbourNode.Blocked)
+                    {
+                        _closedNodes.Add(neighbourNode);
+                        continue;
+                    }
 
                     int tempGoalCost = currentNode.GoalConst + CalculateHeuristicDistance(currentNode, neighbourNode);
 
@@ -70,8 +83,6 @@ namespace PathSystem.PathFinder
 
             return DIAGONAL_COST * Math.Min(xDistance, yDistance) + STRAIGHT_COST * remaining;
         }
-
-        private PathNode GetLowestCostsSum(List<PathNode> pathNodes) => pathNodes.OrderBy(pn => pn.CostsSum).FirstOrDefault();
 
         private List<PathNode> GetNeighbours(PathNode currentNode)
         {
@@ -107,6 +118,8 @@ namespace PathSystem.PathFinder
 
             return result;
         }
+
+
 
         private List<PathNode> BuildFinishPathNodes(PathNode endNode)
         {
